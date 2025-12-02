@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Minimal Art Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Schlichte Webfont (optional, kann man auch weglassen) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --card-bg: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+      --accent: #111111;
+      --border: #e1e1e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #f0f0f0, #fafafa 40%, #f5f5f5 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header / Navigation */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(245, 245, 245, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 0.1rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.2rem;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Layout */
+
+    main {
+      flex: 1;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    .section-heading {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Hero / Home */
+
+    #home {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 4vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 30rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.03);
+      font-size: 0.95rem;
+    }
+
+    .hero-card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-card p + p {
+      margin-top: 0.6rem;
+    }
+
+    /* About + Research + Ideas */
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.02);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-sub {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #222;
+      line-height: 1.5;
+    }
+
+    ul.clean {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    ul.clean li {
+      padding-left: 0.9rem;
+      position: relative;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    ul.clean li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--muted);
+    }
+
+    /* Footer */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 1.5rem 1.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 768px) {
+      #home {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="nav-logo">My Studio</div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#ideas">Ideas</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrapper">
+      <!-- HOME -->
+      <section id="home">
+        <div>
+          <h1 class="hero-title">Art, Sound &amp; Thought.</h1>
+          <p class="hero-sub">
+            A minimal online studio for sketches, research notes and quiet experiments in art and music.
+          </p>
+          <div class="hero-meta">
+            <span>Portfolio in progress</span>
+            <span>Digital &amp; analog</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div class="hero-card-label">Now</div>
+          <p>
+            Exploring the space between composition, visual structure and silence.
+          </p>
+          <p>
+            This page is a small, calm corner of the internet – just text, light, and a few ideas.
+          </p>
+        </aside>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <h2 class="section-heading">About</h2>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-sub">Who</div>
+            <h3 class="card-title">A short note</h3>
+            <p>
+              Write a few lines about yourself here: where you are, what you create, and what currently inspires you.
+              Keep it simple and direct, like a conversation.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-sub">Approach</div>
+            <h3 class="card-title">How I work</h3>
+            <p>
+              You can describe your process, your tools, or the way you combine research and intuition. Think of this as
+              your personal working statement.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESEARCH -->
+      <section id="research">
+        <h2 class="section-heading">Research</h2>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-sub">Current threads</div>
+            <h3 class="card-title">Topics</h3>
+            <ul class="clean">
+              <li>Sound as a spatial material</li>
+              <li>Minimal visual scores and notation</li>
+              <li>Digital archives and memory</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-sub">Notes</div>
+            <h3 class="card-title">Working log</h3>
+            <p>
+              Use this space for short research notes, questions you are exploring, or links you want to remember.
+              It doesn’t need to be perfect – it should feel like a sketchbook.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- IDEAS -->
+      <section id="ideas">
+        <h2 class="section-heading">Ideas</h2>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-sub">Concepts</div>
+            <h3 class="card-title">Project seeds</h3>
+            <ul class="clean">
+              <li>A piece that changes with the time of day.</li>
+              <li>An online score that reacts to mouse movement.</li>
+              <li>A series of tiny works, each under one minute.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-sub">Next steps</div>
+            <h3 class="card-title">What’s coming</h3>
+            <p>
+              List a few projects you want to develop next: recordings to release, performances to plan, or collaborations
+              you’d like to start.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© <span id="year"></span> My Studio</span>
+      <span>Built as a minimal GitHub Pages site.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year automatically
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
