@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dein Name – Portfolio</title>
+  <title>Dein Name</title>
   <style>
     :root{
       --paper:#fbf7ef;
       --ink:#1a1a1a;
       --muted:#5a5a5a;
       --rule:#e6dccb;
-      --shadow: 0 12px 40px rgba(0,0,0,.18);
-      --radius: 14px;
-      --max: 980px;
+      --shadow:0 12px 40px rgba(0,0,0,.18);
+      --radius:14px;
+      --max:980px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       color:var(--ink);
-      font-family: "Times New Roman", Times, serif;
+      font-family:"Times New Roman", Times, serif;
       line-height:1.45;
       background:
         radial-gradient(1200px 800px at 20% 10%, rgba(0,0,0,.06), transparent 60%),
@@ -28,6 +28,7 @@
     }
     a{color:inherit; text-decoration:none}
     a:hover{text-decoration:underline}
+
     .page{
       max-width:var(--max);
       margin:0 auto;
@@ -39,7 +40,6 @@
       position:relative;
       overflow:hidden;
     }
-    /* subtle paper texture */
     .page::before{
       content:"";
       position:absolute;
@@ -64,33 +64,35 @@
       align-items:flex-start;
       justify-content:space-between;
       gap:16px;
-      margin-bottom:22px;
+      margin-bottom:18px;
     }
     .name{
       font-size:28px;
       font-weight:700;
       letter-spacing:.2px;
     }
-    .tagline{
-      margin-top:4px;
+    .meta{
       color:var(--muted);
-      font-size:16px;
+      font-size:15px;
+      text-align:right;
     }
     hr{
       border:0;
       border-top:1px solid var(--rule);
-      margin:18px 0 28px;
+      margin:16px 0 26px;
     }
 
     .hero{
       display:grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns:260px 1fr;
       gap:28px;
       align-items:start;
     }
-    @media (max-width: 760px){
+    @media (max-width:760px){
       .page{padding:22px 18px 28px}
-      .hero{grid-template-columns: 1fr; }
+      header{flex-direction:column; align-items:flex-start}
+      .meta{text-align:left}
+      .hero{grid-template-columns:1fr}
     }
 
     .photoCard{
@@ -101,19 +103,19 @@
     }
     .photo{
       width:100%;
-      aspect-ratio: 4/5;
+      aspect-ratio:4/5;
       object-fit:cover;
       border-radius:10px;
       display:block;
       border:1px solid var(--rule);
       background:#eee;
     }
-
     .icons{
       display:flex;
       gap:10px;
       margin-top:12px;
       align-items:center;
+      flex-wrap:wrap;
     }
     .iconBtn{
       display:inline-flex;
@@ -126,32 +128,27 @@
       cursor:pointer;
       user-select:none;
       font-size:14px;
+      font-family:inherit;
     }
     .iconBtn:hover{background:rgba(255,255,255,.55)}
-    .icon{
-      width:18px;height:18px;display:inline-block;
-    }
+    .icon{width:18px;height:18px;display:inline-block}
 
-    .about h2, .projects h2{
+    h2{
       margin:0 0 10px;
       font-size:20px;
     }
     .about p{
       margin:0 0 10px;
-      color:var(--ink);
       font-size:16px;
     }
-    .meta{
-      color:var(--muted);
-      font-size:15px;
-    }
+    .muted{color:var(--muted)}
 
     .projects{
-      margin-top:28px;
+      margin-top:26px;
     }
     .projectList{
       display:grid;
-      grid-template-columns: 1fr;
+      grid-template-columns:1fr;
       gap:14px;
       margin-top:12px;
     }
@@ -167,10 +164,11 @@
       gap:10px;
       align-items:baseline;
       margin-bottom:6px;
+      flex-wrap:wrap;
     }
     .projectTitle b{font-size:17px}
     .projectTitle span{color:var(--muted); font-size:14px}
-    .project p{margin:0; color:var(--ink)}
+    .project p{margin:0}
     .projectLinks{
       margin-top:10px;
       display:flex;
@@ -186,8 +184,8 @@
       background:rgba(255,255,255,.35);
     }
 
-    /* Modal for CV */
-    .modalOverlay{
+    /* CV modal */
+    .overlay{
       position:fixed;
       inset:0;
       background:rgba(0,0,0,.55);
@@ -197,7 +195,7 @@
       padding:18px;
       z-index:999;
     }
-    .modalOverlay[aria-hidden="false"]{display:flex;}
+    .overlay[aria-hidden="false"]{display:flex;}
     .modal{
       width:min(980px, 96vw);
       height:min(86vh, 760px);
@@ -217,7 +215,6 @@
       border-bottom:1px solid var(--rule);
       background:rgba(255,255,255,.25);
     }
-    .modalTop b{font-size:16px}
     .closeBtn{
       border:1px solid var(--rule);
       border-radius:10px;
@@ -227,22 +224,7 @@
       font-family:inherit;
     }
     .closeBtn:hover{background:rgba(255,255,255,.65)}
-    .modalBody{
-      flex:1;
-      background:#fff;
-    }
-    .modalBody iframe{
-      width:100%;
-      height:100%;
-      border:0;
-    }
-    .srOnly{
-      position:absolute!important;
-      width:1px;height:1px;
-      padding:0;margin:-1px;
-      overflow:hidden;clip:rect(0,0,0,0);
-      white-space:nowrap;border:0;
-    }
+    iframe{width:100%; height:100%; border:0; background:#fff;}
   </style>
 </head>
 
@@ -250,15 +232,11 @@
   <main class="page">
     <div class="content">
       <header>
-        <div>
-          <!-- TODO: Set your name -->
-          <div class="name">DEIN NAME</div>
-          <!-- TODO: Optional short tagline -->
-          <div class="tagline">Kurze Headline / Rolle / Fokus (optional)</div>
-        </div>
-        <!-- Optional right-side link -->
+        <!-- TODO: Name einsetzen -->
+        <div class="name">DEIN NAME</div>
+
+        <!-- TODO: Optional: Email/Ort -->
         <div class="meta">
-          <!-- TODO: Set email / location -->
           <div>dein.email@domain.com</div>
           <div>Stadt, Land</div>
         </div>
@@ -268,12 +246,11 @@
 
       <section class="hero">
         <aside class="photoCard">
-          <!-- TODO: Put your photo in repo and set src -->
+          <!-- TODO: Foto in repo legen: /assets/me.jpg -->
           <img class="photo" src="assets/me.jpg" alt="Porträt von DEIN NAME" />
 
           <div class="icons">
-            <!-- LinkedIn -->
-            <!-- TODO: Replace href with your LinkedIn -->
+            <!-- TODO: LinkedIn URL ersetzen -->
             <a class="iconBtn" href="https://www.linkedin.com/in/DEINHANDLE" target="_blank" rel="noopener">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path fill="currentColor" d="M20.45 20.45h-3.55v-5.4c0-1.29-.02-2.96-1.8-2.96-1.8 0-2.08 1.41-2.08 2.86v5.5H9.47V9h3.4v1.56h.05c.47-.9 1.62-1.85 3.33-1.85 3.56 0 4.2 2.35 4.2 5.41v6.33ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.11 20.45H3.56V9h3.55v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z"/>
@@ -281,136 +258,104 @@
               LinkedIn
             </a>
 
-            <!-- CV modal trigger -->
-            <button class="iconBtn" id="openCvBtn" type="button" aria-haspopup="dialog" aria-controls="cvModal">
+            <!-- TODO: CV PDF in repo legen: /assets/cv.pdf -->
+            <button class="iconBtn" id="openCv" type="button">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path fill="currentColor" d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM7.5 12h9v1.5h-9V12zm0 3h9v1.5h-9V15zm0-6h6v1.5h-6V9z"/>
               </svg>
-              CV
+              CV öffnen
             </button>
           </div>
-          <div class="meta" style="margin-top:10px;">
-            <!-- TODO: Optional small note -->
-            PDF öffnet im Ansichtsmodus.
+
+          <div class="muted" style="margin-top:10px; font-size:14px;">
+            CV öffnet als PDF-Ansicht und ist wieder schließbar.
           </div>
         </aside>
 
         <article class="about">
           <h2>Über mich</h2>
-          <!-- TODO: Replace with your description -->
+          <!-- TODO: Text ersetzen -->
           <p>
-            Ich bin <b>DEIN NAME</b> und arbeite an <i>Thema/Domain</i>. Ich interessiere mich besonders für
+            Ich bin <b>DEIN NAME</b> und arbeite an <i>Thema/Domain</i>. Mein Fokus liegt auf
             <i>Schwerpunkt 1</i>, <i>Schwerpunkt 2</i> und <i>Schwerpunkt 3</i>.
           </p>
           <p>
-            Aktuell fokussiere ich mich auf <i>aktuelles Ziel/Projekt</i> und bringe Erfahrung in
-            <i>Kompetenz A</i>, <i>Kompetenz B</i> und <i>Kompetenz C</i> mit.
+            Zuletzt habe ich an <i>Projekt/Organisation</i> gearbeitet und bringe Erfahrung in
+            <i>Skill A</i>, <i>Skill B</i> und <i>Skill C</i> mit.
           </p>
-          <p class="meta">
-            <!-- TODO: Optional: add 1–2 lines, e.g. availability -->
-            Verfügbar für: Beratung · Projekte · Kollaboration
-          </p>
+
+          <section class="projects">
+            <h2>Projekte</h2>
+
+            <div class="projectList">
+              <!-- TODO: Projekte kopieren/ausfüllen -->
+              <div class="project">
+                <div class="projectTitle">
+                  <b>Projektname 1</b>
+                  <span>2025–2026</span>
+                </div>
+                <p>1–2 Sätze: Problem, Ansatz, Ergebnis/Impact.</p>
+                <div class="projectLinks">
+                  <a class="pill" href="https://github.com/DEINUSER/REPO" target="_blank" rel="noopener">GitHub</a>
+                  <a class="pill" href="https://dein-demo-link.example" target="_blank" rel="noopener">Demo</a>
+                  <span class="pill">Tech: X · Y · Z</span>
+                </div>
+              </div>
+
+              <div class="project">
+                <div class="projectTitle">
+                  <b>Projektname 2</b>
+                  <span>2024–2025</span>
+                </div>
+                <p>Kurzbeschreibung + ggf. Resultat.</p>
+                <div class="projectLinks">
+                  <a class="pill" href="https://github.com/DEINUSER/REPO2" target="_blank" rel="noopener">GitHub</a>
+                  <span class="pill">Tech: A · B · C</span>
+                </div>
+              </div>
+            </div>
+          </section>
         </article>
-      </section>
-
-      <section class="projects">
-        <h2>Projekte</h2>
-
-        <div class="projectList">
-          <!-- TODO: Duplicate this block for more projects -->
-          <div class="project">
-            <div class="projectTitle">
-              <b>Projektname 1</b>
-              <span>2025–2026</span>
-            </div>
-            <p>
-              1–2 Sätze: Problem, Ansatz, Ergebnis. Was war dein Beitrag? (Impact, Metriken, Output)
-            </p>
-            <div class="projectLinks">
-              <!-- TODO: Replace links -->
-              <a class="pill" href="https://github.com/DEINUSER/REPO" target="_blank" rel="noopener">GitHub</a>
-              <a class="pill" href="https://dein-link.example" target="_blank" rel="noopener">Demo</a>
-              <span class="pill">Tech: X · Y · Z</span>
-            </div>
-          </div>
-
-          <div class="project">
-            <div class="projectTitle">
-              <b>Projektname 2</b>
-              <span>2024–2025</span>
-            </div>
-            <p>
-              Kurzbeschreibung. Optional: Paper/Poster/Talk/Produkt-Launch.
-            </p>
-            <div class="projectLinks">
-              <a class="pill" href="https://github.com/DEINUSER/REPO2" target="_blank" rel="noopener">GitHub</a>
-              <span class="pill">Tech: A · B · C</span>
-            </div>
-          </div>
-        </div>
       </section>
     </div>
   </main>
 
-  <!-- CV Modal -->
-  <div class="modalOverlay" id="cvModalOverlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cvTitle" id="cvModal">
+  <!-- CV Overlay -->
+  <div class="overlay" id="cvOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="CV PDF">
       <div class="modalTop">
-        <b id="cvTitle">Lebenslauf (CV)</b>
-        <div>
-          <button class="closeBtn" id="closeCvBtn" type="button">Schließen</button>
-        </div>
+        <b>CV</b>
+        <button class="closeBtn" id="closeCv" type="button">Schließen</button>
       </div>
-      <div class="modalBody">
-        <!-- TODO: Put your CV PDF in repo and set src -->
-        <iframe id="cvFrame" title="CV PDF" src="assets/cv.pdf"></iframe>
-      </div>
+      <iframe src="assets/cv.pdf" title="CV PDF"></iframe>
     </div>
-    <span class="srOnly" id="modalHelp">ESC drücken oder außerhalb klicken zum Schließen.</span>
   </div>
 
   <script>
-    const overlay = document.getElementById('cvModalOverlay');
-    const openBtn = document.getElementById('openCvBtn');
-    const closeBtn = document.getElementById('closeCvBtn');
-    const modal = document.getElementById('cvModal');
+    const overlay = document.getElementById('cvOverlay');
+    const openBtn = document.getElementById('openCv');
+    const closeBtn = document.getElementById('closeCv');
 
-    function openModal(){
-      overlay.setAttribute('aria-hidden', 'false');
-      // focus close button for accessibility
+    function openCv(){
+      overlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
       closeBtn.focus();
-      document.body.style.overflow = 'hidden';
     }
-
-    function closeModal(){
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+    function closeCv(){
+      overlay.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
       openBtn.focus();
     }
 
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
+    openBtn.addEventListener('click', openCv);
+    closeBtn.addEventListener('click', closeCv);
 
-    // click outside modal closes
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeModal();
+      if (e.target === overlay) closeCv();
     });
 
-    // ESC closes
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
-        closeModal();
-      }
-    });
-
-    // simple focus trap
-    overlay.addEventListener('keydown', (e) => {
-      if (e.key !== 'Tab') return;
-      const focusables = modal.querySelectorAll('button, [href], iframe');
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') closeCv();
     });
   </script>
 </body>
