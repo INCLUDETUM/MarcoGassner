@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Website</title>
+  <title>Marco Gassner</title>
   <style>
     :root {
       --bg: #f7f9fc;
-      --surface: rgba(255, 255, 255, 0.72);
-      --surface-strong: rgba(255, 255, 255, 0.9);
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: rgba(255, 255, 255, 0.92);
       --text: #0f3d91;
       --muted: #4d6ea8;
       --line: rgba(15, 61, 145, 0.12);
@@ -83,16 +83,9 @@
 
     .nav {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       padding: 1.3rem 0;
-    }
-
-    .brand {
-      font-size: 0.92rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      opacity: 0.9;
     }
 
     .nav-links {
@@ -102,52 +95,101 @@
       color: var(--muted);
     }
 
-    .hero {
-      min-height: 88vh;
-      display: grid;
-      align-items: center;
-      padding: 2rem 0 3rem;
+    .nav-links button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      padding: 0.25rem 0.1rem;
+      position: relative;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 2rem;
-      align-items: center;
+    .nav-links button.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -0.2rem;
+      height: 1px;
+      background: currentColor;
     }
 
-    .eyebrow {
-      font-size: 0.82rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+    .page {
+      display: none;
+      min-height: calc(100vh - 88px);
+      padding: 2rem 0 4rem;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+      padding-top: 2rem;
+    }
+
+    .left-col h1 {
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.4rem;
+    }
+
+    .portrait-shell {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .portrait-shell img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+    }
+
+    .right-col {
+      padding-top: 0.4rem;
+      max-width: 680px;
+    }
+
+    .right-col p {
+      font-size: 1.08rem;
+      line-height: 1.9;
       color: var(--muted);
+    }
+
+    .panel {
+      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(244,247,252,0.78));
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      padding: 1.6rem;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      letter-spacing: -0.04em;
       margin-bottom: 1rem;
     }
 
-    h1 {
-      font-size: clamp(3rem, 8vw, 6.6rem);
-      line-height: 0.94;
-      letter-spacing: -0.05em;
-      max-width: 8ch;
-      text-wrap: balance;
-    }
-
-    .lead {
-      margin-top: 1.35rem;
-      max-width: 42rem;
-      font-size: 1.08rem;
-      line-height: 1.75;
+    .section-copy {
       color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.4rem;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 0.9rem;
-      margin-top: 1.8rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
+    .pdf-trigger {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -156,199 +198,104 @@
       border-radius: 999px;
       border: 1px solid var(--line);
       background: var(--surface-strong);
-      backdrop-filter: blur(14px);
       box-shadow: var(--shadow);
       font-size: 0.96rem;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(15, 61, 145, 0.28);
-    }
-
-    .btn.secondary {
-      background: transparent;
-      box-shadow: none;
-    }
-
-    .stone-card {
-      justify-self: end;
-      width: min(100%, 420px);
-      aspect-ratio: 0.86;
-      position: relative;
-      border-radius: 36% 64% 58% 42% / 42% 37% 63% 58%;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.92), rgba(237,243,252,0.72)),
-        radial-gradient(circle at 30% 30%, rgba(15,61,145,0.08), transparent 34%);
-      border: 1px solid rgba(15, 61, 145, 0.08);
-      box-shadow:
-        0 28px 80px rgba(15, 61, 145, 0.10),
-        inset -30px -30px 50px rgba(255,255,255,0.86),
-        inset 22px 22px 40px rgba(15, 61, 145, 0.04);
-      overflow: hidden;
-    }
-
-    .stone-card::before,
-    .stone-card::after {
-      content: "";
-      position: absolute;
-      border-radius: inherit;
-    }
-
-    .stone-card::before {
-      inset: 12%;
-      border-radius: 45% 55% 52% 48% / 40% 44% 56% 60%;
-      border: 1px solid rgba(15, 61, 145, 0.08);
-      opacity: 0.75;
-    }
-
-    .stone-card::after {
-      width: 52%;
-      height: 52%;
-      right: 12%;
-      top: 14%;
-      border-radius: 61% 39% 47% 53% / 46% 58% 42% 54%;
-      background: rgba(15, 61, 145, 0.05);
-      filter: blur(2px);
-    }
-
-    .stone-content {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 2rem;
-    }
-
-    .stone-label {
-      font-size: 0.82rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.65rem;
-    }
-
-    .stone-title {
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      line-height: 1.08;
-      max-width: 10ch;
-    }
-
-    .scroll {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      margin-top: 2rem;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .scroll-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: currentColor;
-      animation: pulse 1.8s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.45); opacity: 1; }
-    }
-
-    section {
-      padding: 5rem 0;
-    }
-
-    .section-head {
+    .academic-list {
       display: grid;
-      grid-template-columns: 0.7fr 1.3fr;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      align-items: start;
-    }
-
-    .section-head h2 {
-      font-size: clamp(1.6rem, 3vw, 2.6rem);
-      letter-spacing: -0.04em;
-    }
-
-    .section-head p {
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 42rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
+      margin-top: 1rem;
     }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 1.4rem;
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
+    .academic-item {
+      padding: 1rem 0;
+      border-top: 1px solid var(--line);
     }
 
-    .card small {
-      display: block;
-      margin-bottom: 0.7rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.76rem;
+    .academic-item:first-child {
+      border-top: 0;
+      padding-top: 0;
     }
 
-    .card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.6rem;
-      letter-spacing: -0.03em;
+    .academic-item h3 {
+      font-size: 1.02rem;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
     }
 
-    .card p {
+    .academic-item p {
       color: var(--muted);
       line-height: 1.7;
-      font-size: 0.98rem;
+      font-size: 0.97rem;
     }
 
-    .about-box {
-      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(244,247,252,0.78));
+    .pdf-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: rgba(247, 249, 252, 0.78);
+      backdrop-filter: blur(14px);
+      z-index: 20;
+    }
+
+    .pdf-modal.open {
+      display: flex;
+    }
+
+    .pdf-frame {
+      width: min(1100px, 100%);
+      height: min(88vh, 900px);
+      background: white;
       border: 1px solid var(--line);
-      border-radius: 32px;
-      padding: 1.6rem;
-      line-height: 1.85;
-      color: var(--muted);
-      box-shadow: var(--shadow);
+      border-radius: 28px;
+      box-shadow: 0 28px 80px rgba(15, 61, 145, 0.16);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pdf-close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      z-index: 2;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.94);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.65rem 0.9rem;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+
+    .pdf-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
     footer {
-      padding: 2rem 0 3rem;
+      padding: 1.5rem 0 3rem;
       color: var(--muted);
       font-size: 0.95rem;
     }
 
     @media (max-width: 900px) {
-      .hero-grid,
-      .section-head,
-      .grid {
+      .home-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
       }
 
-      .stone-card {
-        justify-self: start;
-        max-width: 360px;
+      .portrait-shell {
+        max-width: 260px;
       }
 
       .nav {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.9rem;
+        justify-content: flex-start;
       }
     }
 
@@ -357,16 +304,21 @@
         width: min(calc(100% - 1.2rem), var(--max));
       }
 
-      h1 {
-        max-width: 10ch;
+      .nav-links {
+        gap: 0.9rem;
+        flex-wrap: wrap;
       }
 
-      .lead {
-        font-size: 1rem;
+      .page {
+        padding-top: 1rem;
       }
 
-      .card,
-      .about-box {
+      .pdf-modal {
+        padding: 1rem;
+      }
+
+      .pdf-frame {
+        height: 85vh;
         border-radius: 22px;
       }
     }
@@ -376,100 +328,125 @@
   <div class="wrap">
     <nav class="nav">
       <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#work">CV</a>
-        <a href="#contact">Publications</a>
+        <button class="tab-button active" data-page="home">Home</button>
+        <button class="tab-button" data-page="cv">CV</button>
+        <button class="tab-button" data-page="academia">Academia</button>
       </div>
     </nav>
 
-    <header class="hero" id="top">
-      <div class="hero-grid">
-        <div>
-          
-          <h1>Marco Gassner</h1>
-          <p class="lead">
-            I care about: 
+    <main>
+      <section class="page active" id="home-page">
+        <div class="home-grid">
+          <div class="left-col">
+            <h1>Marco Gassner</h1>
+            <div class="portrait-shell">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80" alt="Portrait von Marco Gassner" />
+            </div>
+          </div>
+
+          <div class="right-col panel">
+            <p>
+              Hey reader, I'm Marco a PhD candidate and research associate working in the field of digital mental health. 
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="cv-page">
+        <div class="panel">
+          <h2 class="section-title">CV</h2>
+          <p class="section-copy">
+            Hier kannst du später deine PDF hinterlegen. Beim Klick öffnet sie sich groß als Overlay und lässt sich direkt wieder schließen.
           </p>
-          <div class="hero-actions">
-            <a class="btn secondary" href="#contact">Get in touch</a>
-          </div>
-          <a class="scroll" href="#about">
-            <span class="scroll-dot"></span>
-          </a>
+          <button class="pdf-trigger" id="openPdf">CV öffnen</button>
         </div>
+      </section>
 
-        <div class="stone-card" aria-hidden="true">
-          <div class="stone-content">
-            <div class="stone-label">Digital Mental Health</div>
+      <section class="page" id="academia-page">
+        <div class="panel">
+          <h2 class="section-title">Academia</h2>
+          <p class="section-copy">
+            Dieser Bereich ist bewusst schlicht gehalten und eignet sich für Vorträge, Publikationen oder laufende akademische Arbeit.
+          </p>
+
+          <div class="academic-list">
+            <article class="academic-item">
+              <h3>Vortragstitel oder Konferenzbeitrag</h3>
+              <p>Ort / Veranstaltung · Jahr</p>
+            </article>
+            <article class="academic-item">
+              <h3>Publikationstitel</h3>
+              <p>Journal oder Sammelband · Jahr</p>
+            </article>
+            <article class="academic-item">
+              <h3>Weiterer Eintrag</h3>
+              <p>Kurze Zusatzinformation oder Co-Autor:innen · Jahr</p>
+            </article>
           </div>
         </div>
-      </div>
-    </header>
-
-    <section id="about">
-      <div class="section-head">
-        <h2>About</h2>
-        <p>
-          Use this section for a short introduction: who you are, what you work on, and what kind of perspective you bring.
-          The layout stays airy and readable, with enough personality coming from form and spacing rather than decoration.
-        </p>
-      </div>
-      <div class="about-box">
-        I am interested in work that sits between research, design, and social impact. My website should feel clean and focused,
-        with subtle visual texture instead of loud effects. The goal is a presence that feels personal, calm, and precise.
-      </div>
-    </section>
-
-    <section id="work">
-      <div class="section-head">
-        <h2>Selected Work</h2>
-        <p>
-          Replace these cards with your projects, publications, or current initiatives. This structure works well for a portfolio,
-          academic profile, or hybrid personal site.
-        </p>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <small>Project 01</small>
-          <h3>Current Research</h3>
-          <p>A concise summary of your main research topic, ongoing study, or current collaboration.</p>
-        </article>
-        <article class="card">
-          <small>Project 02</small>
-          <h3>Publication or Paper</h3>
-          <p>A highlighted publication, conference paper, or article with one sentence on why it matters.</p>
-        </article>
-        <article class="card">
-          <small>Project 03</small>
-          <h3>Side Work</h3>
-          <p>A smaller project, concept, or experiment that adds range without making the site visually busy.</p>
-        </article>
-        <article class="card">
-          <small>Project 04</small>
-          <h3>Collaborative Practice</h3>
-          <p>A space for interdisciplinary work, workshops, teaching, or other collaborations.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="section-head">
-        <h2>Contact</h2>
-        <p>
-          Keep this part minimal too. Add your email, GitHub, LinkedIn, or a short invitation to connect.
-        </p>
-      </div>
-      <div class="about-box">
-        Email: yourname@email.com<br />
-        GitHub: github.com/yourname<br />
-        LinkedIn: linkedin.com/in/yourname
-      </div>
-    </section>
+      </section>
+    </main>
 
     <footer>
-      © 2026 Your Name
+      © 2026 Marco Gassner
     </footer>
   </div>
+
+  <div class="pdf-modal" id="pdfModal" aria-hidden="true">
+    <div class="pdf-frame">
+      <button class="pdf-close" id="closePdf">Schließen</button>
+      <iframe src="/cv.pdf" title="CV PDF"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-button');
+    const pages = {
+      home: document.getElementById('home-page'),
+      cv: document.getElementById('cv-page'),
+      academia: document.getElementById('academia-page')
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.page;
+
+        buttons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        Object.values(pages).forEach((page) => page.classList.remove('active'));
+        pages[target].classList.add('active');
+      });
+    });
+
+    const pdfModal = document.getElementById('pdfModal');
+    const openPdf = document.getElementById('openPdf');
+    const closePdf = document.getElementById('closePdf');
+
+    openPdf.addEventListener('click', () => {
+      pdfModal.classList.add('open');
+      pdfModal.setAttribute('aria-hidden', 'false');
+    });
+
+    function closePdfModal() {
+      pdfModal.classList.remove('open');
+      pdfModal.setAttribute('aria-hidden', 'true');
+    }
+
+    closePdf.addEventListener('click', closePdfModal);
+
+    pdfModal.addEventListener('click', (event) => {
+      if (event.target === pdfModal) {
+        closePdfModal();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closePdfModal();
+      }
+    });
+  </script>
 </body>
 </html>
 
