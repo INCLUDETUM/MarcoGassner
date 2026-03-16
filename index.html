@@ -134,11 +134,18 @@
       padding-top: 2rem;
     }
 
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .left-col h1 {
-      font-size: clamp(2.4rem, 4vw, 4rem);
-      line-height: 1;
-      letter-spacing: -0.05em;
-      margin-bottom: 1.4rem;
+      font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      white-space: nowrap;
     }
 
     .portrait-shell {
@@ -159,8 +166,9 @@
     }
 
     .right-col {
-      padding-top: 0.4rem;
+      padding-top: 0;
       max-width: 680px;
+      align-self: start;
     }
 
     .right-col p {
@@ -297,6 +305,10 @@
       .nav {
         justify-content: flex-start;
       }
+
+      .left-col h1 {
+        white-space: normal;
+      }
     }
 
     @media (max-width: 640px) {
@@ -346,10 +358,7 @@
 
           <div class="right-col panel">
             <p>
-              Hey, I'm Marco a PhD candidate and research associate working in the field of digital mental health. I'm interested in digital mental health solutions to improve prevention and treatment outcomes 
-              for children and adolescents facing developmental risks and mental health challenges. My research focuses on digital mental health and early support for children and families facing developmental 
-              and psychosocial challenges. I’m particularly interested in how digital tools can make mental health care more accessible for underserved populations, such as refugee families. My work involves developing and studying multilingual digital interventions that complement 
-              parenting programs and psychosocial support, with the goal of improving prevention and treatment outcomes.
+              Hey, I'm Marco, a PhD candidate and research associate working in digital mental health. I'm interested in digital solutions that improve prevention and treatment outcomes for children, adolescents, and families facing developmental and psychosocial challenges. My work focuses especially on making mental health care more accessible for underserved populations, such as refugee families, through multilingual digital interventions that complement parenting programs and psychosocial support.
             </p>
           </div>
         </div>
@@ -398,7 +407,7 @@
   <div class="pdf-modal" id="pdfModal" aria-hidden="true">
     <div class="pdf-frame">
       <button class="pdf-close" id="closePdf">Schließen</button>
-      <iframe src="/cv.pdf" title="CV PDF"></iframe>
+      <iframe src="https://baseresourcesstack-documentsbucket9ec9deb9-qmmkdw8bfxhu.s3.eu-central-1.amazonaws.com/public/videos/Bilder/CV_MG_26.pdf" title="CV PDF"></iframe>
     </div>
   </div>
 
@@ -452,4 +461,3 @@
   </script>
 </body>
 </html>
-
