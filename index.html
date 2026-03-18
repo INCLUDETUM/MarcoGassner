@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Marco Gassner</title>
 
 <style>
@@ -12,7 +12,7 @@
   --line:rgba(15,47,115,.10);
   --accent:#2f80ed;
   --bg:#f5f8fc;
-  --panel:rgba(255,255,255,.82);
+  --panel:rgba(255,255,255,.84);
   --shadow:0 24px 60px rgba(16,48,112,.08);
   --radius:26px;
   --max:1120px;
@@ -167,7 +167,7 @@ button{font:inherit}
   color:var(--muted);
 }
 
-/* nav right */
+/* nav */
 .nav{
   display:flex;
   gap:.4rem;
@@ -341,11 +341,11 @@ button{font:inherit}
 }
 
 h1{
-  font-size:clamp(1.55rem, 2.4vw, 2.25rem);
-  line-height:1.05;
-  letter-spacing:-.04em;
+  font-size:clamp(1.45rem, 2vw, 2rem);
+  line-height:1.08;
+  letter-spacing:-.03em;
   font-weight:600;
-  max-width:12ch;
+  max-width:none;
 }
 
 .hero-copy{
@@ -611,8 +611,9 @@ footer{
   }
 
   h1{
-    font-size:1.65rem;
-    max-width:none;
+    font-size:1.5rem;
+    line-height:1.12;
+    max-width:14ch;
   }
 
   .hero-copy{
@@ -670,6 +671,7 @@ footer{
 
             <aside class="portrait-panel">
               <div class="portrait">
+                <!-- Ersetze den Placeholder durch dein Bild -->
                 <!-- <img src="YOUR_IMAGE.jpg" alt="Portrait of Marco Gassner"> -->
                 <span>Portrait / Image</span>
               </div>
@@ -814,17 +816,14 @@ function updateScrollScene(){
   const first = Math.min(rawProgress / 0.5, 1);
   const second = Math.min(Math.max((rawProgress - 0.5) / 0.5, 0), 1);
 
-  /* Home: stays readable longer */
   cards.home.style.opacity = `${1 - first * 0.92}`;
   cards.home.style.transform = `translateY(${-105 * first}px) scale(${1 - 0.03 * first})`;
   cards.home.style.filter = `blur(${2.2 * first}px)`;
 
-  /* CV: enters cleaner */
   cards.cv.style.opacity = `${Math.min(0.08 + first, 1)}`;
   cards.cv.style.transform = `translateY(${90 - 90 * first - 70 * second}px) scale(${0.985 + 0.015 * first})`;
   cards.cv.style.filter = `blur(${Math.max(1.8 - 1.8 * first, 0)}px)`;
 
-  /* Academia: also clearer */
   cards.academia.style.opacity = `${Math.min(0.06 + second, 1)}`;
   cards.academia.style.transform = `translateY(${95 - 95 * second}px) scale(${0.985 + 0.015 * second})`;
   cards.academia.style.filter = `blur(${Math.max(1.8 - 1.8 * second, 0)}px)`;
