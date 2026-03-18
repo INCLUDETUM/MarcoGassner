@@ -91,45 +91,65 @@
     }
 
     .brand-mark{
-      width:50px;
-      height:50px;
+      width:52px;
+      height:52px;
       border-radius:14px;
       position:relative;
-      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(234,241,251,.96));
-      border:1px solid rgba(47,128,237,.14);
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(238,243,251,.96));
+      border:1px solid rgba(47,128,237,.12);
       overflow:hidden;
       box-shadow:var(--shadow);
       flex:0 0 auto;
     }
 
-    .brand-mark::before,
+    /* sun */
+    .brand-mark::before{
+      content:"";
+      position:absolute;
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      left:8px;
+      top:9px;
+      background:rgba(215,185,110,.18);
+      border:1.2px solid rgba(15,47,115,.18);
+      filter:blur(.2px);
+    }
+
+    /* canopy sketch */
     .brand-mark::after{
       content:"";
       position:absolute;
-    }
-
-    .brand-mark::before{
-      left:7px;
-      right:7px;
-      top:10px;
-      height:18px;
-      border-radius:999px 999px 12px 12px;
-      background:
-        radial-gradient(circle at 20% 55%, rgba(47,128,237,.18), transparent 42%),
-        radial-gradient(circle at 48% 42%, rgba(47,128,237,.24), transparent 44%),
-        radial-gradient(circle at 78% 58%, rgba(47,128,237,.18), transparent 42%),
-        linear-gradient(180deg, rgba(47,128,237,.06), rgba(47,128,237,.14));
-      box-shadow:inset 0 -1px 0 rgba(47,128,237,.08);
-    }
-
-    .brand-mark::after{
       inset:0;
       background:
-        linear-gradient(112deg, transparent 0 46%, rgba(255,219,135,.55) 48%, transparent 50%),
-        linear-gradient(96deg, transparent 0 56%, rgba(255,219,135,.42) 58%, transparent 60%),
-        linear-gradient(82deg, transparent 0 66%, rgba(255,219,135,.32) 68%, transparent 70%);
+        linear-gradient(102deg, transparent 0 36%, rgba(15,47,115,.16) 36.5%, transparent 37.2%),
+        linear-gradient(94deg, transparent 0 30%, rgba(15,47,115,.12) 30.5%, transparent 31.1%),
+        linear-gradient(88deg, transparent 0 50%, rgba(15,47,115,.14) 50.5%, transparent 51.1%),
+        linear-gradient(80deg, transparent 0 60%, rgba(15,47,115,.12) 60.5%, transparent 61.1%),
+        linear-gradient(72deg, transparent 0 68%, rgba(15,47,115,.10) 68.4%, transparent 69%);
       opacity:.95;
-      mask:linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.55));
+    }
+
+    .brand-mark .tree-sketch{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .brand-mark .tree-sketch::before{
+      content:"";
+      position:absolute;
+      left:25px;
+      bottom:6px;
+      width:1.6px;
+      height:20px;
+      background:rgba(15,47,115,.22);
+      box-shadow:
+        -7px -11px 0 -.4px rgba(15,47,115,.18),
+        7px -12px 0 -.4px rgba(15,47,115,.18),
+        -11px -5px 0 -.5px rgba(15,47,115,.14),
+        11px -6px 0 -.5px rgba(15,47,115,.14);
+      transform:rotate(1deg);
     }
 
     .brand-copy{
@@ -142,23 +162,21 @@
     .brand-name{
       display:flex;
       align-items:baseline;
-      gap:.42rem;
+      gap:.18rem;
       min-width:0;
       line-height:1;
       letter-spacing:-.03em;
+      font-size:1.08rem;
+      color:var(--text);
     }
 
-    .first-name{
-      font-size:1.28rem;
+    .initial{
       font-weight:700;
-      color:var(--text);
     }
 
-    .last-name{
-      font-size:1rem;
-      font-weight:600;
-      color:var(--text);
-      opacity:.92;
+    .name-rest{
+      font-weight:500;
+      opacity:.96;
     }
 
     .brand-copy .subline{
@@ -269,6 +287,13 @@
       position:relative;
     }
 
+    .portrait-shell img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
     .profile-links{
       display:grid;
       gap:.7rem;
@@ -334,14 +359,15 @@
     }
 
     h1{
-      font-size:clamp(2rem, 4vw, 3.5rem);
-      line-height:.98;
+      font-size:clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height:1.02;
       letter-spacing:-.05em;
-      max-width:10ch;
+      max-width:14ch;
+      font-weight:600;
     }
 
     .hero-copy{
-      font-size:1.02rem;
+      font-size:1rem;
       line-height:1.8;
       color:var(--muted);
       max-width:64ch;
@@ -390,45 +416,12 @@
       margin-bottom:.55rem;
     }
 
-    .signal-grid{
-      margin-top:.9rem;
-      height:130px;
+    .blank-visual{
+      margin-top:.2rem;
+      height:155px;
       border-radius:18px;
-      border:1px solid rgba(15,47,115,.08);
-      background:
-        linear-gradient(rgba(15,47,115,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(15,47,115,.06) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(47,128,237,.05), rgba(143,188,255,.14));
-      background-size:26px 26px, 26px 26px, auto;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .node{
-      position:absolute;
-      width:12px;height:12px;
-      border-radius:50%;
-      background:#fff;
-      border:2px solid rgba(47,128,237,.62);
-      box-shadow:0 0 0 6px rgba(47,128,237,.08);
-      animation:floatNode 5.5s ease-in-out infinite;
-    }
-
-    .n1{top:18px;left:24px}
-    .n2{top:38px;left:120px;animation-delay:.8s}
-    .n3{top:84px;left:75px;animation-delay:1.4s}
-    .n4{top:26px;right:72px;animation-delay:1.8s}
-    .n5{bottom:24px;right:34px;animation-delay:2.2s}
-
-    .signal-grid svg{
-      position:absolute;
-      inset:0;
-      width:100%;height:100%;
-    }
-
-    @keyframes floatNode{
-      0%,100%{transform:translateY(0px)}
-      50%{transform:translateY(-5px)}
+      border:1px dashed rgba(47,128,237,.18);
+      background:linear-gradient(135deg, rgba(255,255,255,.5), rgba(243,247,253,.75));
     }
 
     .page-head{
@@ -568,7 +561,6 @@
       .nav{justify-self:start}
       .stack-grid,
       .academic-item{grid-template-columns:1fr}
-      h1{max-width:12ch}
     }
 
     @media (max-width:720px){
@@ -590,11 +582,13 @@
   <div class="wrap">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-mark" aria-hidden="true">
+          <span class="tree-sketch"></span>
+        </div>
         <div class="brand-copy">
           <div class="brand-name" aria-label="Marco Gassner">
-            <span class="first-name">Marco</span>
-            <span class="last-name">Gassner</span>
+            <span class="initial">M</span><span class="name-rest">arco</span>
+            <span class="initial">G</span><span class="name-rest">assner</span>
           </div>
           <span class="subline">Digital Mental Health</span>
         </div>
@@ -613,8 +607,8 @@
           <article class="stack-card" data-page-card="home">
             <div class="stack-grid">
               <aside class="portrait-panel">
-                <div class="portrait-shell image-placeholder large-placeholder">
-                  <span>Portrait / Image</span>
+                <div class="portrait-shell">
+                  <img src="YOUR_IMAGE.jpg" alt="Portrait of Marco Gassner" />
                 </div>
 
                 <div class="profile-links">
@@ -638,7 +632,7 @@
 
               <section class="panel hero-panel">
                 <div class="eyebrow">Home</div>
-                <h1>Marco Gassner</h1>
+                <h1>Good to have you here.</h1>
 
                 <div class="hero-copy">
                   <p>PhD candidate and research associate in digital mental health.</p>
@@ -648,18 +642,7 @@
                 <div class="hero-bottom single-visual">
                   <div class="signal-card visual-anchor">
                     <div class="section-kicker">Visual</div>
-                    <h3>Behavior × data × interdisciplinary thinking</h3>
-                    <div class="signal-grid" aria-hidden="true">
-                      <svg viewBox="0 0 320 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M30 24C70 28 90 42 122 44C165 47 186 17 241 27C267 32 282 54 290 101" stroke="rgba(47,128,237,.34)" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 7"/>
-                        <path d="M76 88C103 72 116 62 144 62C174 62 193 79 228 86C251 90 266 89 286 75" stroke="rgba(15,47,115,.20)" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                      <span class="node n1"></span>
-                      <span class="node n2"></span>
-                      <span class="node n3"></span>
-                      <span class="node n4"></span>
-                      <span class="node n5"></span>
-                    </div>
+                    <div class="blank-visual"></div>
                   </div>
                 </div>
               </section>
