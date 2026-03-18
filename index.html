@@ -64,61 +64,110 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:1.25rem 0 1rem;
-      gap:1rem;
+      padding:1.1rem 0 .6rem;
+      gap:1.4rem;
     }
 
     .brand{
       display:flex;
       align-items:center;
-      gap:.8rem;
+      gap:1rem;
       min-width:0;
+      flex:1 1 auto;
+      max-width:520px;
     }
 
     .brand-mark{
-      width:42px;
-      height:42px;
-      border-radius:14px;
+      width:54px;
+      height:54px;
+      border-radius:16px;
       position:relative;
-      background:linear-gradient(135deg, rgba(47,128,237,.18), rgba(143,188,255,.28));
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(230,239,252,.92));
       border:1px solid rgba(47,128,237,.16);
       overflow:hidden;
       box-shadow:var(--shadow);
+      flex:0 0 auto;
     }
 
     .brand-mark::before,
     .brand-mark::after{
       content:"";
       position:absolute;
-      border-radius:999px;
-      background:var(--accent);
-      opacity:.85;
+    }
+
+    /* tree canopy */
+    .brand-mark::before{
+      top:6px;
+      left:6px;
+      right:6px;
+      height:26px;
+      border-radius:50% 50% 40% 40%;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(47,128,237,.35), transparent 60%),
+        radial-gradient(circle at 70% 50%, rgba(47,128,237,.28), transparent 65%),
+        radial-gradient(circle at 50% 60%, rgba(47,128,237,.22), transparent 70%);
+      filter:blur(.2px);
+    }
+
+    /* sunlight rays */
+    .brand-mark::after{
+      inset:0;
+      background:
+        linear-gradient(110deg, transparent 0 40%, rgba(255,220,140,.55) 42%, transparent 44%),
+        linear-gradient(95deg, transparent 0 55%, rgba(255,220,140,.45) 57%, transparent 59%),
+        linear-gradient(80deg, transparent 0 65%, rgba(255,220,140,.35) 67%, transparent 69%);
+      opacity:.9;
+      mix-blend-mode:overlay;
     }
 
     .brand-mark::before{
-      width:7px;height:7px;left:9px;top:10px;
-      box-shadow:14px 6px 0 0 rgba(47,128,237,.75), 8px 18px 0 0 rgba(47,128,237,.55);
+      left:8px;
+      right:8px;
+      bottom:7px;
+      height:22px;
+      border-radius:999px 999px 14px 14px;
+      background:linear-gradient(180deg, rgba(47,128,237,.10), rgba(47,128,237,.22));
+      filter:blur(.2px);
     }
 
     .brand-mark::after{
-      inset:0;
-      background:none;
-      border-left:1.6px solid rgba(47,128,237,.45);
-      border-bottom:1.6px solid rgba(47,128,237,.45);
-      width:14px;
-      height:14px;
-      left:12px;
-      top:11px;
-      transform:rotate(-35deg);
-      border-radius:2px;
+      width:34px;
+      height:34px;
+      right:-4px;
+      top:-4px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,215,128,.7) 0%, rgba(255,215,128,.22) 36%, rgba(255,215,128,0) 72%);
+      box-shadow:-10px 16px 0 -13px rgba(47,128,237,.32), -18px 20px 0 -16px rgba(47,128,237,.24), -2px 25px 0 -17px rgba(47,128,237,.28);
     }
 
-    .brand-copy{min-width:0}
-    .brand-copy strong{
-      display:block;
-      font-size:.92rem;
-      letter-spacing:.02em;
+    .brand-copy{
+      min-width:0;
+      display:grid;
+      gap:.12rem;
     }
+
+    .brand-name{
+      display:flex;
+      align-items:baseline;
+      gap:.42rem;
+      min-width:0;
+      line-height:1;
+      letter-spacing:-.03em;
+    }
+
+    .first-name{
+      font-size:1.24rem;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .last-name{
+      font-size:1rem;
+      font-weight:600;
+      color:var(--text);
+      opacity:.92;
+    }
+
     .brand-copy span{
       display:block;
       font-size:.78rem;
@@ -140,6 +189,8 @@
       box-shadow:var(--shadow);
       flex-wrap:wrap;
       justify-content:flex-end;
+      margin-left:auto;
+      transform:translateX(180px);
     }
 
     .tab-button{
@@ -173,9 +224,9 @@
       top:0;
       min-height:100vh;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
-      padding:1.2rem 0 2.6rem;
+      padding:.4rem 0 2.2rem;
       overflow:hidden;
     }
 
@@ -183,7 +234,7 @@
       position:absolute;
       width:100%;
       left:0;
-      top:50%;
+      top:47%;
       transform:translateY(-50%);
       transition:opacity .14s linear, transform .14s linear, filter .14s linear;
       will-change:transform, opacity, filter;
@@ -273,6 +324,42 @@
     .large-placeholder{
       min-height:360px;
       aspect-ratio:auto;
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 20%, rgba(255,220,140,.48), rgba(255,220,140,0) 24%),
+        linear-gradient(180deg, rgba(255,255,255,.9), rgba(233,241,252,.96));
+    }
+
+    .large-placeholder::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(102deg, transparent 0 34%, rgba(47,128,237,.18) 34.5% 35.3%, transparent 35.8% 100%),
+        linear-gradient(97deg, transparent 0 46%, rgba(47,128,237,.14) 46.5% 47.2%, transparent 47.8% 100%),
+        linear-gradient(90deg, transparent 0 58%, rgba(47,128,237,.12) 58.6% 59.1%, transparent 59.7% 100%),
+        linear-gradient(180deg, transparent 0 68%, rgba(47,128,237,.16) 68.5% 69.2%, transparent 69.8% 100%);
+      opacity:.9;
+    }
+
+    .large-placeholder::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:-6%;
+      width:3px;
+      height:76%;
+      background:rgba(47,128,237,.28);
+      box-shadow:
+        -38px -120px 0 -1px rgba(47,128,237,.18),
+        -22px -84px 0 -1px rgba(47,128,237,.18),
+        28px -110px 0 -1px rgba(47,128,237,.18),
+        18px -70px 0 -1px rgba(47,128,237,.18),
+        -52px -42px 0 -1px rgba(47,128,237,.14),
+        48px -46px 0 -1px rgba(47,128,237,.14);
+      transform:translateX(-50%);
+      opacity:.9;
     }
 
     .wide-placeholder{
@@ -493,9 +580,15 @@
         align-items:flex-start;
       }
 
+      .brand{
+        max-width:none;
+      }
+
       .nav{
         width:100%;
         justify-content:flex-start;
+        margin-left:0;
+        transform:none;
       }
 
       .panel,
@@ -503,7 +596,7 @@
 
       .stack-area{
         align-items:flex-start;
-        padding-top:6.2rem;
+        padding-top:1.2rem;
       }
 
       .large-placeholder{
@@ -537,7 +630,10 @@
       <div class="brand">
         <div class="brand-mark"></div>
         <div class="brand-copy">
-          <strong>Marco Gassner</strong>
+          <div class="brand-name" aria-label="Marco Gassner">
+            <span class="first-name">Marco</span>
+            <span class="last-name">Gassner</span>
+          </div>
           <span>Digital Mental Health</span>
         </div>
       </div>
@@ -556,7 +652,7 @@
             <div class="stack-grid">
               <aside class="portrait-panel">
                 <div class="portrait-shell image-placeholder large-placeholder">
-                  <span>Portrait / Image</span>
+                  <span>Komorebi / Image</span>
                 </div>
 
                 <div class="profile-links">
