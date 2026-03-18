@@ -1,403 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marco Gassner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marco Gassner</title>
+  <style>
+    :root{
+      --bg:#f5f8fc;
+      --bg-soft:#edf3fb;
+      --panel:rgba(255,255,255,.78);
+      --text:#0f2f73;
+      --muted:#5c74a3;
+      --line:rgba(15,47,115,.10);
+      --line-strong:rgba(15,47,115,.18);
+      --accent:#2f80ed;
+      --accent-soft:rgba(47,128,237,.12);
+      --accent-2:#8fbcff;
+      --shadow:0 24px 60px rgba(16,48,112,.08);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --max:1120px;
+    }
 
-<style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
 
-:root{
---text:#0f3d91;
---muted:#4d6ea8;
---line:rgba(15,61,145,.12);
---shadow:0 18px 50px rgba(15,61,145,.07);
---max:1050px;
-}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(143,188,255,.20), transparent 0 26%),
+        radial-gradient(circle at 88% 14%, rgba(47,128,237,.12), transparent 0 24%),
+        linear-gradient(180deg,#f8fbff 0%,#f3f7fc 100%);
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
 
-*{box-sizing:border-box;margin:0;padding:0}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(15,47,115,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,47,115,.03) 1px, transparent 1px);
+      background-size:34px 34px;
+      mask-image:radial-gradient(circle at center, black 42%, transparent 92%);
+      opacity:.55;
+    }
 
-body{
-font-family:Inter,system-ui,-apple-system;
-background:#f7f9fc;
-color:var(--text);
-}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
 
-.wrap{
-width:min(calc(100% - 2rem),var(--max));
-margin:auto;
-}
+    .wrap{
+      width:min(calc(100% - 2rem),var(--max));
+      margin:auto;
+      position:relative;
+      z-index:1;
+    }
 
-.nav{
-display:flex;
-justify-content:flex-end;
-padding:1.4rem 0;
-}
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:1.25rem 0 1rem;
+      gap:1rem;
+    }
 
-.nav-links{
-display:flex;
-gap:1.2rem;
-font-size:.95rem;
-color:var(--muted);
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+      min-width:0;
+    }
 
-.nav-links button{
-border:0;
-background:none;
-cursor:pointer;
-font:inherit;
-color:inherit;
-}
+    .brand-mark{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      position:relative;
+      background:linear-gradient(135deg, rgba(47,128,237,.18), rgba(143,188,255,.28));
+      border:1px solid rgba(47,128,237,.16);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
 
-.page{display:none;padding:2rem 0}
-.page.active{display:block}
+    .brand-mark::before,
+    .brand-mark::after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:var(--accent);
+      opacity:.85;
+    }
 
-.home-grid{
-display:grid;
-grid-template-columns:220px 1fr;
-gap:3rem;
-align-items:start;
-}
+    .brand-mark::before{
+      width:7px;height:7px;left:9px;top:10px;
+      box-shadow:14px 6px 0 0 rgba(47,128,237,.75), 8px 18px 0 0 rgba(47,128,237,.55);
+    }
 
-.left-col{
-display:flex;
-flex-direction:column;
-}
+    .brand-mark::after{
+      inset:0;
+      background:none;
+      border-left:1.6px solid rgba(47,128,237,.45);
+      border-bottom:1.6px solid rgba(47,128,237,.45);
+      width:14px;
+      height:14px;
+      left:12px;
+      top:11px;
+      transform:rotate(-35deg);
+      border-radius:2px;
+    }
 
-.portrait-shell{
-border-radius:20px;
-overflow:hidden;
-border:1px solid var(--line);
-box-shadow:var(--shadow);
-max-width:200px;
-transition:.2s ease;
-}
+    .brand-copy{min-width:0}
+    .brand-copy strong{
+      display:block;
+      font-size:.92rem;
+      letter-spacing:.02em;
+    }
+    .brand-copy span{
+      display:block;
+      font-size:.78rem;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
 
-.portrait-shell:hover{
-transform:translateY(-3px);
-}
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:.45rem;
+      padding:.38rem;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.66);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
 
-.portrait-shell img{
-width:100%;
-display:block;
-}
+    .tab-button{
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      padding:.7rem 1rem;
+      border-radius:999px;
+      cursor:pointer;
+      transition:.22s ease;
+    }
 
-.profile-links{
-display:flex;
-gap:1rem;
-margin-top:12px;
-}
+    .tab-button:hover{
+      color:var(--text);
+      background:rgba(47,128,237,.06);
+    }
 
-.profile-links a{
-display:flex;
-align-items:center;
-gap:6px;
-font-size:.9rem;
-color:var(--muted);
-transition:.2s;
-}
+    .tab-button.active{
+      background:linear-gradient(135deg, rgba(47,128,237,.12), rgba(143,188,255,.24));
+      color:var(--text);
+      box-shadow:inset 0 0 0 1px rgba(47,128,237,.12);
+    }
 
-.profile-links a:hover{
-color:var(--text);
-}
+    .scroll-stage{
+      height:300vh;
+      position:relative;
+    }
 
-.profile-links svg{
-width:15px;
-height:15px;
-}
+    .stack-area{
+      position:sticky;
+      top:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:1.2rem 0 2.6rem;
+      overflow:hidden;
+    }
 
-.right-col{
-max-width:650px;
-}
+    .stack-card{
+      position:absolute;
+      width:100%;
+      left:0;
+      top:50%;
+      transform:translateY(-50%);
+      transition:opacity .14s linear, transform .14s linear, filter .14s linear;
+      will-change:transform, opacity, filter;
+    }
 
-.panel{
-border:1px solid var(--line);
-border-radius:24px;
-padding:1.5rem;
-box-shadow:var(--shadow);
-background:white;
-transition:.25s;
-}
+    .scroll-progress{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:3px;
+      z-index:30;
+      background:rgba(15,47,115,.06);
+    }
 
-.panel:hover{
-transform:translateY(-4px);
-}
+    .scroll-progress span{
+      display:block;
+      height:100%;
+      width:100%;
+      transform-origin:left center;
+      transform:scaleX(0);
+      background:linear-gradient(90deg, rgba(47,128,237,.85), rgba(143,188,255,.8));
+    }
 
-.right-col h1{
-font-size:1.9rem;
-margin-bottom:0.9rem;
-font-weight:600;
-letter-spacing:-.01em;
-}
+    .stack-grid{
+      display:grid;
+      grid-template-columns:240px minmax(0,1fr);
+      gap:2rem;
+      align-items:stretch;
+    }
 
-.right-col p{
-line-height:1.8;
-color:var(--muted);
-}
+    .hero-panel{
+      display:grid;
+      gap:1.35rem;
+      min-height:100%;
+    }
 
-.right-col a{
-color:var(--text);
-text-decoration:underline;
-}
+    .hero-bottom.single-visual{
+      display:flex;
+      justify-content:flex-end;
+    }
 
-.section-title{
-font-size:1.4rem;
-margin-bottom:1rem;
-}
+    .visual-anchor{
+      width:min(100%, 360px);
+      margin-left:auto;
+    }
 
-.pdf-trigger{
-padding:.7rem 1.1rem;
-border-radius:999px;
-border:1px solid var(--line);
-background:white;
-cursor:pointer;
-transition:.2s;
-}
+    .mini-card,
+    .signal-card,
+    .cv-card,
+    .academic-item{
+      border-radius:22px;
+      padding:1.15rem;
+    }
 
-.pdf-trigger:hover{
-transform:translateY(-2px);
-}
+    .signal-card{
+      position:relative;
+      overflow:hidden;
+    }
 
-.academic-list{
-margin-top:1rem;
-display:grid;
-gap:1rem;
-}
+    .big-stage-card{
+      display:grid;
+      gap:1.25rem;
+      min-height:68vh;
+      align-content:start;
+    }
 
-.academic-item{
-border-top:1px solid var(--line);
-padding-top:1rem;
-}
+    .compact-head{
+      margin-bottom:0;
+    }
 
-.pdf-modal{
-position:fixed;
-inset:0;
-display:none;
-align-items:center;
-justify-content:center;
-background:rgba(0,0,0,.25);
-}
+    .image-placeholder{
+      border:1px dashed rgba(47,128,237,.24);
+      background:linear-gradient(135deg, rgba(47,128,237,.05), rgba(143,188,255,.12));
+      border-radius:24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#6b85b5;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.78rem;
+      text-align:center;
+      padding:1rem;
+    }
 
-.pdf-modal.open{display:flex}
+    .large-placeholder{
+      min-height:360px;
+      aspect-ratio:auto;
+    }
 
-.pdf-frame{
-width:90%;
-height:90%;
-background:white;
-border-radius:20px;
-overflow:hidden;
-position:relative;
-}
+    .wide-placeholder{
+      min-height:420px;
+      width:100%;
+    }
 
-.pdf-close{
-position:absolute;
-top:10px;
-right:10px;
-border:0;
-background:white;
-padding:.5rem .8rem;
-cursor:pointer;
-}
+    .lower-placeholder{
+      min-height:240px;
+      margin-top:.4rem;
+    }
 
-.pdf-frame iframe{
-width:100%;
-height:100%;
-border:0;
-}
+    .simple-copy{
+      display:grid;
+      gap:.5rem;
+    }
 
-footer{
-padding:2rem 0;
-font-size:.9rem;
-color:#6a84b5;
-}
+    .signal-grid{
+      margin-top:.9rem;
+      height:130px;
+      border-radius:18px;
+      border:1px solid rgba(15,47,115,.08);
+      background:
+        linear-gradient(rgba(15,47,115,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,47,115,.06) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(47,128,237,.05), rgba(143,188,255,.14));
+      background-size:26px 26px, 26px 26px, auto;
+      position:relative;
+      overflow:hidden;
+    }
 
-@media (max-width:800px){
+    .node{
+      position:absolute;
+      width:12px;height:12px;
+      border-radius:50%;
+      background:#fff;
+      border:2px solid rgba(47,128,237,.62);
+      box-shadow:0 0 0 6px rgba(47,128,237,.08);
+      animation:floatNode 5.5s ease-in-out infinite;
+    }
 
-.home-grid{
-grid-template-columns:1fr;
-}
+    .n1{top:18px;left:24px}
+    .n2{top:38px;left:120px;animation-delay:.8s}
+    .n3{top:84px;left:75px;animation-delay:1.4s}
+    .n4{top:26px;right:72px;animation-delay:1.8s}
+    .n5{bottom:24px;right:34px;animation-delay:2.2s}
 
-.left-col{
-align-items:flex-start;
-}
+    .signal-grid svg{
+      position:absolute;
+      inset:0;
+      width:100%;height:100%;
+    }
 
-.portrait-shell{
-max-width:180px;
-}
+    @keyframes floatNode{
+      0%,100%{transform:translateY(0px)}
+      50%{transform:translateY(-5px)}
+    }
 
-}
+    .page-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:1rem;
+      margin-bottom:1rem;
+      flex-wrap:wrap;
+    }
 
-</style>
+    .page-head p{
+      color:var(--muted);
+      max-width:58ch;
+      line-height:1.7;
+    }
+
+    .pdf-trigger{
+      display:inline-flex;
+      align-items:center;
+      gap:.7rem;
+      padding:.9rem 1.15rem;
+      border-radius:999px;
+      border:1px solid rgba(47,128,237,.14);
+      background:linear-gradient(135deg, rgba(47,128,237,.10), rgba(143,188,255,.22));
+      color:var(--text);
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .pdf-trigger:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+
+    .academia-grid{
+      display:grid;
+      gap:1rem;
+    }
+
+    .academic-item{
+      display:grid;
+      grid-template-columns:140px 1fr;
+      gap:1rem;
+      align-items:start;
+      transition:.22s ease;
+    }
+
+    .academic-item:hover{
+      transform:translateY(-3px);
+      border-color:var(--line-strong);
+    }
+
+    .academic-meta{
+      color:#6f89b8;
+      font-size:.88rem;
+      padding-top:.15rem;
+    }
+
+    .academic-item h3{
+      font-size:1.05rem;
+      letter-spacing:-.02em;
+      margin-bottom:.3rem;
+    }
+
+    .tag-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.45rem;
+      margin-top:.85rem;
+    }
+
+    .tag{
+      padding:.42rem .62rem;
+      border-radius:999px;
+      font-size:.76rem;
+      color:var(--text);
+      background:rgba(47,128,237,.08);
+      border:1px solid rgba(47,128,237,.10);
+    }
+
+    .pdf-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(7,20,50,.26);
+      backdrop-filter:blur(6px);
+      padding:1rem;
+      z-index:20;
+    }
+
+    .pdf-modal.open{display:flex}
+
+    .pdf-frame{
+      width:min(1100px,100%);
+      height:min(90vh,900px);
+      background:#fff;
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+      border:1px solid rgba(15,47,115,.08);
+      box-shadow:0 30px 90px rgba(10,28,68,.20);
+    }
+
+    .pdf-topbar{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:.9rem 1rem;
+      background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.78));
+      border-bottom:1px solid rgba(15,47,115,.08);
+      backdrop-filter:blur(12px);
+    }
+
+    .pdf-topbar strong{font-size:.95rem}
+    .pdf-close{
+      border:0;
+      background:#fff;
+      padding:.58rem .86rem;
+      border-radius:999px;
+      cursor:pointer;
+      color:var(--text);
+      box-shadow:var(--shadow);
+      border:1px solid var(--line);
+    }
+
+    .pdf-frame iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      padding-top:58px;
+    }
+
+    footer{
+      padding:0 0 2rem;
+      color:#6c86b6;
+      font-size:.9rem;
+    }
+
+    @media (max-width:940px){
+      .stack-grid,
+      .academic-item{
+        grid-template-columns:1fr;
+      }
+
+      h1{max-width:12ch}
+    }
+
+      h1{max-width:12ch}
+    }
+
+    @media (max-width:720px){
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .nav{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .panel,
+      .portrait-panel{padding:1.1rem}
+
+      .stack-area{
+        align-items:flex-start;
+        padding-top:6.2rem;
+      }
+
+      .large-placeholder{
+        min-height:280px;
+      }
+
+      .wide-placeholder{
+        min-height:280px;
+      }
+    }
+
+      .nav{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .panel,
+      .portrait-panel{padding:1.1rem}
+
+      .hero{gap:1rem}
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="wrap">
-
-<nav class="nav">
-<div class="nav-links">
-<button class="tab-button active" data-page="home">Home</button>
-<button class="tab-button" data-page="cv">CV</button>
-<button class="tab-button" data-page="academia">Academia</button>
-</div>
-</nav>
-
-
-<main>
-
-<section class="page active" id="home-page">
-
-<div class="home-grid">
-
-<div class="left-col">
-
-<div class="portrait-shell">
-<img src="https://baseresourcesstack-documentsbucket9ec9deb9-qmmkdw8bfxhu.s3.eu-central-1.amazonaws.com/public/videos/Bilder/Marco_Fav.jpeg">
-</div>
-
-<div class="profile-links">
-
-<a href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank">
-
-<svg viewBox="0 0 24 24" fill="currentColor">
-<path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1s2.5 1.12 2.5 2.5ZM.5 8h4V24h-4V8Zm7 0h3.83v2.18h.05C11.91 9.22 13.65 7.5 16.55 7.5 22.04 7.5 23 11.11 23 15.8V24h-4v-7.28c0-1.74-.03-3.97-2.42-3.97-2.42 0-2.79 1.89-2.79 3.84V24h-4V8Z"/>
-</svg>
-
-LinkedIn
-</a>
-
-<a href="https://profiles.stanford.edu/YOUR_STANFORD_PROFILE" target="_blank">
-
-<svg viewBox="0 0 24 24" fill="currentColor">
-<path d="M12 2L2 7v2c0 5.5 3.8 10.7 10 13 6.2-2.3 10-7.5 10-13V7L12 2z"/>
-</svg>
-
-Stanford
-</a>
-
-</div>
-
-</div>
-
-
-<div class="right-col panel">
-
-<h1>Marco Gassner</h1>
-
-<p>
-
-Hey, I'm Marco, a PhD candidate and research associate working in digital mental health.
-
-Currently I'm a visiting research scholar at Stanford in the 
-<a href="YOUR_STANFORD_DIVISION_LINK" target="_blank">
-Division of Interdisciplinary Brain Sciences, Department of Psychiatry and Behavioral Sciences
-</a>.
-
-My research focuses on digital solutions that improve prevention and treatment outcomes for children, adolescents, and families facing developmental and psychosocial challenges.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section class="page" id="cv-page">
-
-<div class="panel">
-
-<h2 class="section-title">CV</h2>
-
-<button class="pdf-trigger" id="openPdf">Open CV</button>
-
-</div>
-
-</section>
-
-
-
-<section class="page" id="academia-page">
-
-<div class="panel">
-
-<h2 class="section-title">Academia</h2>
-
-<div class="academic-list">
-
-<div class="academic-item">
-<h3>Talk / Conference Contribution</h3>
-<p>Conference · Year</p>
-</div>
-
-<div class="academic-item">
-<h3>Publication Title</h3>
-<p>Journal · Year</p>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-<footer>
-© 2026 Marco Gassner
-</footer>
-
-</div>
-
-
-
-<div class="pdf-modal" id="pdfModal">
-
-<div class="pdf-frame">
-
-<button class="pdf-close" id="closePdf">Close</button>
-
-<iframe src="cv.pdf"></iframe>
-
-</div>
-
-</div>
-
-
-
-<script>
-
-const buttons=document.querySelectorAll(".tab-button")
-
-const pages={
-home:document.getElementById("home-page"),
-cv:document.getElementById("cv-page"),
-academia:document.getElementById("academia-page")
-}
-
-buttons.forEach(b=>{
-b.onclick=()=>{
-buttons.forEach(x=>x.classList.remove("active"))
-b.classList.add("active")
-
-Object.values(pages).forEach(p=>p.classList.remove("active"))
-pages[b.dataset.page].classList.add("active")
-}
-})
-
-const modal=document.getElementById("pdfModal")
-
-document.getElementById("openPdf").onclick=()=>{
-modal.classList.add("open")
-}
-
-document.getElementById("closePdf").onclick=()=>{
-modal.classList.remove("open")
-}
-
-</script>
-
+  <div class="scroll-progress" aria-hidden="true">
+    <span id="progressDot"></span>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar" id="topbar">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-copy">
+          <strong>Marco Gassner</strong>
+          <span>Digital Mental Health</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="tab-button active" data-page="home">Home</button>
+        <button class="tab-button" data-page="cv">CV</button>
+        <button class="tab-button" data-page="academia">Academia</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="scroll-stage" id="scrollStage">
+        <div class="stack-area">
+          <article class="stack-card current" data-page-card="home">
+            <div class="stack-grid">
+              <aside class="portrait-panel">
+                <div class="portrait-shell image-placeholder large-placeholder">
+                  <span>Portrait / Image</span>
+                </div>
+
+                <div class="profile-links">
+                  <a href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener noreferrer">
+                    <span class="left">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1s2.5 1.12 2.5 2.5ZM.5 8h4V24h-4V8Zm7 0h3.83v2.18h.05C11.91 9.22 13.65 7.5 16.55 7.5 22.04 7.5 23 11.11 23 15.8V24h-4v-7.28c0-1.74-.03-3.97-2.42-3.97-2.42 0-2.79 1.89-2.79 3.84V24h-4V8Z"/>
+                      </svg>
+                      <span>LinkedIn</span>
+                    </span>
+                    <span>↗</span>
+                  </a>
+
+                  <a href="https://profiles.stanford.edu/YOUR_STANFORD_PROFILE" target="_blank" rel="noopener noreferrer">
+                    <span class="left">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 2L2 7v2c0 5.5 3.8 10.7 10 13 6.2-2.3 10-7.5 10-13V7L12 2z"/>
+                      </svg>
+                      <span>Stanford</span>
+                    </span>
+                    <span>↗</span>
+                  </a>
+                </div>
+              </aside>
+
+              <section class="panel hero-panel">
+                <div class="eyebrow">Home</div>
+                <div>
+                  <h1>Marco Gassner</h1>
+                </div>
+
+                <div class="hero-copy simple-copy">
+                  <p>PhD candidate and research associate in digital mental health.</p>
+                  <p>
+                    Visiting research scholar at Stanford in the
+                    <a href="YOUR_STANFORD_DIVISION_LINK" target="_blank" rel="noopener noreferrer">Division of Interdisciplinary Brain Sciences, Department of Psychiatry and Behavioral Sciences</a>.
+                  </p>
+                </div>
+
+                <div class="hero-bottom single-visual">
+                  <div class="signal-card visual-anchor">
+                    <div class="section-kicker">Visual</div>
+                    <h3>Behavior × data × interdisciplinary thinking</h3>
+                    <div class="signal-grid" aria-hidden="true">
+                      <svg viewBox="0 0 320 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 24C70 28 90 42 122 44C165 47 186 17 241 27C267 32 282 54 290 101" stroke="rgba(47,128,237,.34)" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 7"/>
+                        <path d="M76 88C103 72 116 62 144 62C174 62 193 79 228 86C251 90 266 89 286 75" stroke="rgba(15,47,115,.20)" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                      <span class="node n1"></span>
+                      <span class="node n2"></span>
+                      <span class="node n3"></span>
+                      <span class="node n4"></span>
+                      <span class="node n5"></span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </article>
+
+          <article class="stack-card next" data-page-card="cv">
+            <div class="panel cv-card big-stage-card">
+              <div class="page-head compact-head">
+                <div>
+                  <div class="section-kicker">CV</div>
+                  <h2 class="section-title">Curriculum Vitae</h2>
+                </div>
+                <button class="pdf-trigger" id="openPdf">Open CV ↗</button>
+              </div>
+              <div class="image-placeholder wide-placeholder">
+                <span>CV Preview / Visual Placeholder</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="stack-card hidden-card" data-page-card="academia">
+            <div class="panel">
+              <div class="page-head">
+                <div>
+                  <div class="section-kicker">Academia</div>
+                  <h2 class="section-title">Selected Work</h2>
+                </div>
+              </div>
+
+              <div class="academia-grid">
+                <article class="academic-item">
+                  <div class="academic-meta">Talk · Year</div>
+                  <div>
+                    <h3>Conference Contribution Title</h3>
+                    <p>Subtitle or short descriptor</p>
+                  </div>
+                </article>
+
+                <article class="academic-item">
+                  <div class="academic-meta">Publication · Year</div>
+                  <div>
+                    <h3>Publication Title</h3>
+                    <p>Journal / venue</p>
+                  </div>
+                </article>
+
+                <div class="image-placeholder wide-placeholder lower-placeholder">
+                  <span>Project / Publication Image Placeholder</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © 2026 Marco Gassner
+    </footer>
+  </div>
+
+  <div class="pdf-modal" id="pdfModal" aria-hidden="true">
+    <div class="pdf-frame">
+      <div class="pdf-topbar">
+        <strong>Curriculum Vitae</strong>
+        <button class="pdf-close" id="closePdf">Close</button>
+      </div>
+      <iframe src="cv.pdf" title="Marco Gassner CV"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const progressDot = document.getElementById('progressDot');
+    const stage = document.getElementById('scrollStage');
+    const cards = {
+      home: document.querySelector('[data-page-card="home"]'),
+      cv: document.querySelector('[data-page-card="cv"]'),
+      academia: document.querySelector('[data-page-card="academia"]')
+    };
+    const buttons = document.querySelectorAll('.tab-button');
+
+    function setActiveNav(name) {
+      buttons.forEach(button => {
+        button.classList.toggle('active', button.dataset.page === name);
+      });
+    }
+
+    function updateScrollScene() {
+      const rect = stage.getBoundingClientRect();
+      const maxScroll = Math.max(stage.offsetHeight - window.innerHeight, 1);
+      const rawProgress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
+      progressDot.style.transform = `scaleX(${rawProgress})`;
+
+      const first = Math.min(rawProgress / 0.5, 1);
+      const second = Math.min(Math.max((rawProgress - 0.5) / 0.5, 0), 1);
+
+      cards.home.style.opacity = `${1 - first}`;
+      cards.home.style.transform = `translateY(${-120 * first}px) scale(${1 - 0.08 * first})`;
+      cards.home.style.filter = `blur(${8 * first}px)`;
+
+      cards.cv.style.opacity = `${Math.min(0.35 + first, 1)}`;
+      cards.cv.style.transform = `translateY(${100 - 100 * first - 110 * second}px) scale(${0.94 + 0.06 * first - 0.04 * second})`;
+      cards.cv.style.filter = `blur(${Math.max(6 - 6 * first + 3 * second, 0)}px)`;
+
+      cards.academia.style.opacity = `${Math.min(0.2 + second, 1)}`;
+      cards.academia.style.transform = `translateY(${140 - 140 * second}px) scale(${0.92 + 0.08 * second})`;
+      cards.academia.style.filter = `blur(${Math.max(8 - 8 * second, 0)}px)`;
+
+      if (rawProgress < 0.34) setActiveNav('home');
+      else if (rawProgress < 0.68) setActiveNav('cv');
+      else setActiveNav('academia');
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const page = button.dataset.page;
+        const ratio = page === 'home' ? 0 : page === 'cv' ? 0.5 : 1;
+        const targetY = stage.offsetTop + (stage.offsetHeight - window.innerHeight) * ratio;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      });
+    });
+
+    const modal = document.getElementById('pdfModal');
+    const openPdf = document.getElementById('openPdf');
+    const closePdf = document.getElementById('closePdf');
+
+    openPdf.addEventListener('click', () => {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    });
+
+    closePdf.addEventListener('click', () => {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    });
+
+    modal.addEventListener('click', event => {
+      if (event.target === modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    window.addEventListener('scroll', updateScrollScene, { passive: true });
+    window.addEventListener('resize', updateScrollScene);
+    updateScrollScene();
+  </script>
 </body>
 </html>
+
