@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -103,7 +103,6 @@ button{font:inherit}
   flex:0 0 auto;
 }
 
-/* sun */
 .brand-mark::before{
   content:"";
   position:absolute;
@@ -116,7 +115,6 @@ button{font:inherit}
   border:1px solid rgba(15,47,115,.16);
 }
 
-/* pencil-like rays */
 .brand-mark::after{
   content:"";
   position:absolute;
@@ -167,7 +165,6 @@ button{font:inherit}
   color:var(--muted);
 }
 
-/* nav */
 .nav{
   display:flex;
   gap:.4rem;
@@ -203,7 +200,7 @@ button{font:inherit}
 /* ---------- SCROLL ---------- */
 
 .scroll-stage{
-  height:300vh;
+  height:360vh; /* mehr Weg = langsamere Übergänge */
   position:relative;
 }
 
@@ -224,9 +221,9 @@ button{font:inherit}
   left:0;
   top:6.1rem;
   transition:
-    opacity .16s linear,
-    transform .16s linear,
-    filter .16s linear;
+    opacity .28s linear,
+    transform .28s linear,
+    filter .28s linear;
   will-change:transform, opacity, filter;
 }
 
@@ -416,6 +413,12 @@ h1{
   max-width:55ch;
 }
 
+.cv-actions{
+  display:flex;
+  gap:.7rem;
+  flex-wrap:wrap;
+}
+
 .pdf-trigger{
   display:inline-flex;
   align-items:center;
@@ -432,6 +435,26 @@ h1{
 .pdf-trigger:hover{
   transform:translateY(-2px);
   box-shadow:var(--shadow);
+}
+
+.cv-viewer{
+  width:100%;
+  height:70vh;
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  background:#fff;
+  transition:height .25s ease;
+}
+
+.cv-viewer.large{
+  height:88vh;
+}
+
+.cv-viewer iframe{
+  width:100%;
+  height:100%;
+  border:0;
 }
 
 .academia-list{
@@ -470,68 +493,6 @@ footer{
   padding:0 0 2rem;
   color:#6c86b6;
   font-size:.9rem;
-}
-
-/* ---------- MODAL ---------- */
-
-.pdf-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(7,20,50,.26);
-  backdrop-filter:blur(6px);
-  padding:1rem;
-  z-index:20;
-}
-
-.pdf-modal.open{
-  display:flex;
-}
-
-.pdf-frame{
-  width:min(1100px,100%);
-  height:min(90vh,900px);
-  background:#fff;
-  border-radius:28px;
-  overflow:hidden;
-  position:relative;
-  border:1px solid rgba(15,47,115,.08);
-  box-shadow:0 30px 90px rgba(10,28,68,.20);
-}
-
-.pdf-topbar{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  z-index:2;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:.9rem 1rem;
-  background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.78));
-  border-bottom:1px solid rgba(15,47,115,.08);
-  backdrop-filter:blur(12px);
-}
-
-.pdf-close{
-  border:0;
-  background:#fff;
-  padding:.58rem .86rem;
-  border-radius:999px;
-  cursor:pointer;
-  color:var(--text);
-  box-shadow:var(--shadow);
-  border:1px solid var(--line);
-}
-
-.pdf-frame iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  padding-top:58px;
 }
 
 /* ---------- MOBILE ---------- */
@@ -629,6 +590,14 @@ footer{
   .page-head{
     align-items:flex-start;
   }
+
+  .cv-viewer{
+    height:62vh;
+  }
+
+  .cv-viewer.large{
+    height:82vh;
+  }
 }
 </style>
 </head>
@@ -668,10 +637,8 @@ footer{
         <!-- HOME -->
         <article class="stack-card" data-page-card="home">
           <div class="grid">
-
             <aside class="portrait-panel">
               <div class="portrait">
-                <!-- Ersetze den Placeholder durch dein Bild -->
                 <!-- <img src="YOUR_IMAGE.jpg" alt="Portrait of Marco Gassner"> -->
                 <span>Portrait / Image</span>
               </div>
@@ -720,7 +687,6 @@ footer{
                 </div>
               </div>
             </section>
-
           </div>
         </article>
 
@@ -736,7 +702,14 @@ footer{
                 </p>
               </div>
 
-              <button class="pdf-trigger" id="openPdf">Open CV ↗</button>
+              <div class="cv-actions">
+                <button class="pdf-trigger" id="toggleCvSize">Größer</button>
+                <a class="pdf-trigger" href="cv.pdf" target="_blank" rel="noopener noreferrer">In neuem Tab öffnen ↗</a>
+              </div>
+            </div>
+
+            <div class="cv-viewer" id="cvViewer">
+              <iframe src="cv.pdf" title="Marco Gassner CV"></iframe>
             </div>
           </section>
         </article>
@@ -778,16 +751,6 @@ footer{
   <footer>© 2026 Marco Gassner</footer>
 </div>
 
-<div class="pdf-modal" id="pdfModal" aria-hidden="true">
-  <div class="pdf-frame">
-    <div class="pdf-topbar">
-      <strong>Curriculum Vitae</strong>
-      <button class="pdf-close" id="closePdf">Close</button>
-    </div>
-    <iframe src="cv.pdf" title="Marco Gassner CV"></iframe>
-  </div>
-</div>
-
 <script>
 const progressDot = document.getElementById("progressDot");
 const stage = document.getElementById("scrollStage");
@@ -799,6 +762,8 @@ const cards = {
 };
 
 const buttons = document.querySelectorAll(".tab-button");
+const cvViewer = document.getElementById("cvViewer");
+const toggleCvSize = document.getElementById("toggleCvSize");
 
 function setActiveNav(name){
   buttons.forEach(button=>{
@@ -806,68 +771,60 @@ function setActiveNav(name){
   });
 }
 
+function clamp(value, min, max){
+  return Math.min(Math.max(value, min), max);
+}
+
+function delayedBlur(progress, startAt = 0.72){
+  if(progress <= startAt) return 0;
+  return (progress - startAt) / (1 - startAt);
+}
+
 function updateScrollScene(){
   const rect = stage.getBoundingClientRect();
   const maxScroll = Math.max(stage.offsetHeight - window.innerHeight, 1);
-  const rawProgress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
+  const rawProgress = clamp(-rect.top / maxScroll, 0, 1);
 
   progressDot.style.transform = `scaleX(${rawProgress})`;
 
-  const first = Math.min(rawProgress / 0.5, 1);
-  const second = Math.min(Math.max((rawProgress - 0.5) / 0.5, 0), 1);
+  /* längere Segmente */
+  const first = clamp(rawProgress / 0.62, 0, 1);
+  const second = clamp((rawProgress - 0.62) / 0.38, 0, 1);
 
-  cards.home.style.opacity = `${1 - first * 0.92}`;
-  cards.home.style.transform = `translateY(${-105 * first}px) scale(${1 - 0.03 * first})`;
-  cards.home.style.filter = `blur(${2.2 * first}px)`;
+  const homeBlur = delayedBlur(first, 0.76);
+  const cvBlurIn = delayedBlur(first, 0.70);
+  const cvBlurOut = delayedBlur(second, 0.78);
+  const academiaBlur = delayedBlur(second, 0.70);
 
-  cards.cv.style.opacity = `${Math.min(0.08 + first, 1)}`;
-  cards.cv.style.transform = `translateY(${90 - 90 * first - 70 * second}px) scale(${0.985 + 0.015 * first})`;
-  cards.cv.style.filter = `blur(${Math.max(1.8 - 1.8 * first, 0)}px)`;
+  cards.home.style.opacity = `${1 - first * 0.88}`;
+  cards.home.style.transform = `translateY(${-72 * first}px) scale(${1 - 0.018 * first})`;
+  cards.home.style.filter = `blur(${2.4 * homeBlur}px)`;
 
-  cards.academia.style.opacity = `${Math.min(0.06 + second, 1)}`;
-  cards.academia.style.transform = `translateY(${95 - 95 * second}px) scale(${0.985 + 0.015 * second})`;
-  cards.academia.style.filter = `blur(${Math.max(1.8 - 1.8 * second, 0)}px)`;
+  cards.cv.style.opacity = `${Math.min(0.12 + first, 1)}`;
+  cards.cv.style.transform = `translateY(${70 - 70 * first - 50 * second}px) scale(${0.992 + 0.008 * first})`;
+  cards.cv.style.filter = `blur(${Math.max(1.4 - 1.4 * cvBlurIn + 1.8 * cvBlurOut, 0)}px)`;
 
-  if(rawProgress < 0.34) setActiveNav("home");
-  else if(rawProgress < 0.68) setActiveNav("cv");
+  cards.academia.style.opacity = `${Math.min(0.08 + second, 1)}`;
+  cards.academia.style.transform = `translateY(${85 - 85 * second}px) scale(${0.992 + 0.008 * second})`;
+  cards.academia.style.filter = `blur(${Math.max(1.6 - 1.6 * academiaBlur, 0)}px)`;
+
+  if(rawProgress < 0.30) setActiveNav("home");
+  else if(rawProgress < 0.76) setActiveNav("cv");
   else setActiveNav("academia");
 }
 
 buttons.forEach(button=>{
   button.addEventListener("click", ()=>{
     const page = button.dataset.page;
-    const ratio = page === "home" ? 0 : page === "cv" ? 0.5 : 1;
+    const ratio = page === "home" ? 0 : page === "cv" ? 0.62 : 1;
     const targetY = stage.offsetTop + (stage.offsetHeight - window.innerHeight) * ratio;
     window.scrollTo({ top: targetY, behavior: "smooth" });
   });
 });
 
-const modal = document.getElementById("pdfModal");
-const openPdf = document.getElementById("openPdf");
-const closePdf = document.getElementById("closePdf");
-
-openPdf.addEventListener("click", ()=>{
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden","false");
-});
-
-closePdf.addEventListener("click", ()=>{
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden","true");
-});
-
-modal.addEventListener("click", e=>{
-  if(e.target === modal){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-  }
-});
-
-document.addEventListener("keydown", e=>{
-  if(e.key === "Escape"){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-  }
+toggleCvSize.addEventListener("click", ()=>{
+  cvViewer.classList.toggle("large");
+  toggleCvSize.textContent = cvViewer.classList.contains("large") ? "Kleiner" : "Größer";
 });
 
 window.addEventListener("scroll", updateScrollScene, { passive:true });
